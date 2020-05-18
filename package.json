@@ -1,0 +1,9 @@
+{
+  "name": "natours",
+  "version": "1.0.0",
+  "description": "Full nodeJS Natours page",
+  "main": "index.js",
+  "repository": "git@github.com:Ismaaa/natours.git",
+  "author": "Ismaaa",
+  "license": "MIT"
+}
