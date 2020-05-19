@@ -23,6 +23,14 @@ app.get("/api/v1/tours/:id", (req, res) => {
   const id = parseInt(req.params.id, 10); // To decimal
   const tour = tours.find((item) => item.id === id);
 
+  if (tour === undefined) {
+    return res.status(404).json({
+      status: "fail",
+      message: "not_found",
+      params: req.params,
+    });
+  }
+
   res.status(200).json({
     status: "success",
     params: req.params,
