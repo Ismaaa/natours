@@ -11,7 +11,7 @@ const {
   getUser,
   updateUser,
   deleteUser,
-} = require("../controllers/TourController");
+} = require("../controllers/UserController");
 
 // routes
 router.route("/").get(getAllUsers).post(createUser);
