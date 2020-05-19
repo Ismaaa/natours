@@ -3,7 +3,18 @@ const express = require("express");
 
 const app = express();
 
+// Middlewares
 app.use(express.json());
+app.use((req, res, next) => {
+  console.log("Hello from the middleware");
+  next();
+});
+
+app.use((req, res, next) => {
+  req.requestTime = new Date().toISOString();
+  next();
+});
+
 const port = 8080;
 
 const tours = JSON.parse(
@@ -52,6 +63,7 @@ const createTour = (req, res) => {
     (err) => {
       res.status(201).json({
         status: "success",
+        created_at: req.requestTime,
         data: {
           tour,
         },
