@@ -28,7 +28,7 @@ app.post("/api/v1/tours", (req, res) => {
   // Always async, as we are inside a callback function and we never want to block the event loop
   fs.writeFile(
     `${__dirname}/dev-data/data/tours-simple.json`,
-    JSON.stringify(tours),
+    JSON.stringify(tours, null, "\t"), // Pretty output
     (err) => {
       res.status(201).json({
         status: "Success",
