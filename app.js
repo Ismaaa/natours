@@ -11,7 +11,7 @@ const tours = JSON.parse(
 );
 
 app.get("/api/v1/tours", (req, res) => {
-  res.json({
+  res.status(200).json({
     status: "success",
     results: tours.length,
     data: { tours },
@@ -19,9 +19,25 @@ app.get("/api/v1/tours", (req, res) => {
 });
 
 app.post("/api/v1/tours", (req, res) => {
-  console.log(req.body);
+  const id = tours[tours.length - 1].id + 1;
+  // New object with the ID and the data from the request
+  const tour = { id, ...req.body };
 
-  res.send("Done");
+  tours.push(tour);
+
+  // Always async, as we are inside a callback function and we never want to block the event loop
+  fs.writeFile(
+    `${__dirname}/dev-data/data/tours-simple.json`,
+    JSON.stringify(tours),
+    (err) => {
+      res.status(201).json({
+        status: "Success",
+        data: {
+          tour,
+        },
+      });
+    }
+  );
 });
 
 app.listen(port, () => {
