@@ -10,7 +10,10 @@ const userRouter = require("./routes/UserRoutes");
 const app = express();
 
 // Middlewares
-app.use(morgan("dev"));
+if (process.env.NODE_ENV === "dev") {
+  app.use(morgan("dev"));
+}
+
 app.use(express.json());
 app.use(express.static(`${__dirname}/public`));
 
