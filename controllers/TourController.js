@@ -6,6 +6,23 @@ const tours = JSON.parse(
   fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`)
 );
 
+exports.checkID = (req, res, next, val) => {
+  // Find by ID
+  const id = parseInt(val, 10); // To decimal
+  const tour = tours.find((item) => item.id === id);
+
+  // Throw err if not found
+  if (tour === undefined) {
+    return res.status(404).json({
+      status: "fail",
+      message: "not_found",
+      params: req.params,
+    });
+  }
+
+  next();
+};
+
 // handlers
 exports.getAllTours = (req, res) => {
   res.status(200).json({
@@ -19,14 +36,6 @@ exports.getTour = (req, res) => {
   // Find by ID
   const id = parseInt(req.params.id, 10); // To decimal
   const tour = tours.find((item) => item.id === id);
-
-  if (tour === undefined) {
-    return res.status(404).json({
-      status: "fail",
-      message: "not_found",
-      params: req.params,
-    });
-  }
 
   res.status(200).json({
     status: "success",
@@ -59,18 +68,6 @@ exports.createTour = (req, res) => {
 };
 
 exports.updateTour = (req, res) => {
-  // Find by ID
-  const id = parseInt(req.params.id, 10); // To decimal
-  const tour = tours.find((item) => item.id === id);
-
-  if (tour === undefined) {
-    return res.status(404).json({
-      status: "fail",
-      message: "not_found",
-      params: req.params,
-    });
-  }
-
   res.status(200).json({
     status: "success",
     data: {
@@ -80,18 +77,6 @@ exports.updateTour = (req, res) => {
 };
 
 exports.deleteTour = (req, res) => {
-  // Find by ID
-  const id = parseInt(req.params.id, 10); // To decimal
-  const tour = tours.find((item) => item.id === id);
-
-  if (tour === undefined) {
-    return res.status(404).json({
-      status: "fail",
-      message: "not_found",
-      params: req.params,
-    });
-  }
-
   // It won't return anything, as we are using 204
   res.status(204).json({
     status: "success",
