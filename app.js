@@ -79,8 +79,28 @@ app.patch("/api/v1/tours/:id", (req, res) => {
   res.status(200).json({
     status: "success",
     data: {
-      tour: '<Updated tour>'
+      tour: "<Updated tour>",
     },
+  });
+});
+
+app.delete("/api/v1/tours/:id", (req, res) => {
+  // Find by ID
+  const id = parseInt(req.params.id, 10); // To decimal
+  const tour = tours.find((item) => item.id === id);
+
+  if (tour === undefined) {
+    return res.status(404).json({
+      status: "fail",
+      message: "not_found",
+      params: req.params,
+    });
+  }
+
+  // It won't return anything, as we are using 204
+  res.status(204).json({
+    status: "success",
+    data: null,
   });
 });
 
