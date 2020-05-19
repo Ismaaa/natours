@@ -1,6 +1,12 @@
+// libs
 const fs = require("fs");
 const express = require("express");
+const morgan = require("morgan");
 
+// config
+const port = 8080;
+
+// init express
 const app = express();
 
 // Middlewares
@@ -15,8 +21,7 @@ app.use((req, res, next) => {
   next();
 });
 
-const port = 8080;
-
+// methods
 const tours = JSON.parse(
   fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`)
 );
@@ -113,6 +118,7 @@ const deleteTour = (req, res) => {
   });
 };
 
+// endpoints
 app.route("/api/v1/tours").get(getAllTours).post(createTour);
 app
   .route("/api/v1/tours/:id")
@@ -120,6 +126,7 @@ app
   .patch(updateTour)
   .delete(deleteTour);
 
+// start server
 app.listen(port, () => {
   console.log(`App running on port ${port}...`);
 });
