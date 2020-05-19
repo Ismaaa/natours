@@ -20,7 +20,7 @@ app.get("/api/v1/tours", (req, res) => {
 
 app.get("/api/v1/tours/:id", (req, res) => {
   // Find by ID
-  const id = parseInt(req.params.id);
+  const id = parseInt(req.params.id, 10); // To decimal
   const tour = tours.find((item) => item.id === id);
 
   res.status(200).json({
