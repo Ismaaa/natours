@@ -101,16 +101,12 @@ const deleteTour = (req, res) => {
   });
 };
 
-// List all
-app.get("/api/v1/tours", getAllTours);
-// List one
-app.get("/api/v1/tours/:id", getTour);
-// Save one
-app.post("/api/v1/tours", createTour);
-// Update one
-app.patch("/api/v1/tours/:id", updateTour);
-// Delete one
-app.delete("/api/v1/tours/:id", deleteTour);
+app.route("/api/v1/tours").get(getAllTours).post(createTour);
+app
+  .route("/api/v1/tours/:id")
+  .get(getTour)
+  .patch(updateTour)
+  .delete(deleteTour);
 
 app.listen(port, () => {
   console.log(`App running on port ${port}...`);
