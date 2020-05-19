@@ -6,9 +6,6 @@ const morgan = require("morgan");
 const tourRouter = require("./routes/TourRoutes");
 const userRouter = require("./routes/UserRoutes");
 
-// config
-const port = 8080;
-
 // init express
 const app = express();
 
@@ -29,7 +26,4 @@ app.use((req, res, next) => {
 app.use("/api/v1/tours", tourRouter);
 app.use("/api/v1/users", userRouter);
 
-// start server
-app.listen(port, () => {
-  console.log(`App running on port ${port}...`);
-});
+module.exports = app;

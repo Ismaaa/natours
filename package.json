@@ -7,7 +7,7 @@
   "author": "Ismaaa",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon app.js -e js,json,html"
+    "start": "nodemon server.js -e js,json,html"
   },
   "devDependencies": {
     "eslint": "6.8.0",
