@@ -10,17 +10,15 @@ const tours = JSON.parse(
   fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`)
 );
 
-// List all
-app.get("/api/v1/tours", (req, res) => {
+const getAllTours = (req, res) => {
   res.status(200).json({
     status: "success",
     results: tours.length,
     data: { tours },
   });
-});
+};
 
-// List one
-app.get("/api/v1/tours/:id", (req, res) => {
+const getTour = (req, res) => {
   // Find by ID
   const id = parseInt(req.params.id, 10); // To decimal
   const tour = tours.find((item) => item.id === id);
@@ -38,10 +36,9 @@ app.get("/api/v1/tours/:id", (req, res) => {
     params: req.params,
     tour,
   });
-});
+};
 
-// Save one
-app.post("/api/v1/tours", (req, res) => {
+const createTour = (req, res) => {
   const id = tours[tours.length - 1].id + 1;
   // New object with the ID and the data from the request
   const tour = { id, ...req.body };
@@ -61,9 +58,9 @@ app.post("/api/v1/tours", (req, res) => {
       });
     }
   );
-});
+};
 
-app.patch("/api/v1/tours/:id", (req, res) => {
+const updateTour = (req, res) => {
   // Find by ID
   const id = parseInt(req.params.id, 10); // To decimal
   const tour = tours.find((item) => item.id === id);
@@ -82,9 +79,9 @@ app.patch("/api/v1/tours/:id", (req, res) => {
       tour: "<Updated tour>",
     },
   });
-});
+};
 
-app.delete("/api/v1/tours/:id", (req, res) => {
+const deleteTour = (req, res) => {
   // Find by ID
   const id = parseInt(req.params.id, 10); // To decimal
   const tour = tours.find((item) => item.id === id);
@@ -102,7 +99,18 @@ app.delete("/api/v1/tours/:id", (req, res) => {
     status: "success",
     data: null,
   });
-});
+};
+
+// List all
+app.get("/api/v1/tours", getAllTours);
+// List one
+app.get("/api/v1/tours/:id", getTour);
+// Save one
+app.post("/api/v1/tours", createTour);
+// Update one
+app.patch("/api/v1/tours/:id", updateTour);
+// Delete one
+app.delete("/api/v1/tours/:id", deleteTour);
 
 app.listen(port, () => {
   console.log(`App running on port ${port}...`);
