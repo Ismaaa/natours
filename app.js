@@ -3,8 +3,8 @@ const express = require("express");
 const morgan = require("morgan");
 
 // routes
-const tourRouter = require("./routes/tourRoutes");
-const userRouter = require("./routes/userRoutes");
+const tourRouter = require("./routes/TourRoutes");
+const userRouter = require("./routes/UserRoutes");
 
 // config
 const port = 8080;
