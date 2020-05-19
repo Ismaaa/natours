@@ -10,6 +10,7 @@ const tours = JSON.parse(
   fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`)
 );
 
+// List all
 app.get("/api/v1/tours", (req, res) => {
   res.status(200).json({
     status: "success",
@@ -18,6 +19,7 @@ app.get("/api/v1/tours", (req, res) => {
   });
 });
 
+// List one
 app.get("/api/v1/tours/:id", (req, res) => {
   // Find by ID
   const id = parseInt(req.params.id, 10); // To decimal
@@ -38,6 +40,7 @@ app.get("/api/v1/tours/:id", (req, res) => {
   });
 });
 
+// Save one
 app.post("/api/v1/tours", (req, res) => {
   const id = tours[tours.length - 1].id + 1;
   // New object with the ID and the data from the request
@@ -51,13 +54,34 @@ app.post("/api/v1/tours", (req, res) => {
     JSON.stringify(tours, null, "\t"), // Pretty output
     (err) => {
       res.status(201).json({
-        status: "Success",
+        status: "success",
         data: {
           tour,
         },
       });
     }
   );
+});
+
+app.patch("/api/v1/tours/:id", (req, res) => {
+  // Find by ID
+  const id = parseInt(req.params.id, 10); // To decimal
+  const tour = tours.find((item) => item.id === id);
+
+  if (tour === undefined) {
+    return res.status(404).json({
+      status: "fail",
+      message: "not_found",
+      params: req.params,
+    });
+  }
+
+  res.status(200).json({
+    status: "success",
+    data: {
+      tour: '<Updated tour>'
+    },
+  });
 });
 
 app.listen(port, () => {
