@@ -119,6 +119,37 @@ const deleteTour = (req, res) => {
   });
 };
 
+const getAllUsers = (req, res) => {
+  res.status(501).json({
+    status: "error",
+    message: "Feature not implemented yet",
+  });
+};
+const createUser = (req, res) => {
+  res.status(501).json({
+    status: "error",
+    message: "Feature not implemented yet",
+  });
+};
+const getUser = (req, res) => {
+  res.status(501).json({
+    status: "error",
+    message: "Feature not implemented yet",
+  });
+};
+const updateUser = (req, res) => {
+  res.status(501).json({
+    status: "error",
+    message: "Feature not implemented yet",
+  });
+};
+const deleteUser = (req, res) => {
+  res.status(501).json({
+    status: "error",
+    message: "Feature not implemented yet",
+  });
+};
+
 // endpoints
 app.route("/api/v1/tours").get(getAllTours).post(createTour);
 app
@@ -126,6 +157,13 @@ app
   .get(getTour)
   .patch(updateTour)
   .delete(deleteTour);
+
+app.route("/api/v1/users").get(getAllUsers).post(createUser);
+app
+  .route("/api/v1/users/:id")
+  .get(getUser)
+  .patch(updateUser)
+  .delete(deleteUser);
 
 // start server
 app.listen(port, () => {
