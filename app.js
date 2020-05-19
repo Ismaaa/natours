@@ -21,7 +21,7 @@ app.use((req, res, next) => {
   next();
 });
 
-// methods
+// route handlers
 const tours = JSON.parse(
   fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`)
 );
