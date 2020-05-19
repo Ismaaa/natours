@@ -6,6 +6,7 @@ const tours = JSON.parse(
   fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`)
 );
 
+// middlewares
 exports.checkID = (req, res, next, val) => {
   // Find by ID
   const id = parseInt(val, 10); // To decimal
@@ -15,7 +16,21 @@ exports.checkID = (req, res, next, val) => {
   if (tour === undefined) {
     return res.status(404).json({
       status: "fail",
-      message: "not_found",
+      message: "Not found",
+      params: req.params,
+    });
+  }
+
+  next();
+};
+
+exports.checkBody = (req, res, next) => {
+  const { name, price } = req.body;
+
+  if (name === undefined || price === undefined) {
+    return res.status(400).json({
+      status: "fail",
+      message: "Missing name or price",
       params: req.params,
     });
   }
@@ -51,11 +66,13 @@ exports.createTour = (req, res) => {
 
   tours.push(tour);
 
-  // Always async, as we are inside a callback function and we never want to block the event loop
+  // Always async, as we are inside a callback function
+  // and we never want to block the event loop
   fs.writeFile(
-    `${__dirname}/dev-data/data/tours-simple.json`,
+    `${__dirname}/../dev-data/data/tours-simple.json`,
     JSON.stringify(tours, null, "\t"), // Pretty output
     (err) => {
+      console.log(err);
       res.status(201).json({
         status: "success",
         created_at: req.requestTime,
