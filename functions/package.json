@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "lint": "eslint .",
-    "serve": "firebase emulators:start --only functions",
+    "serve": "firebase serve --only functions,hosting",
     "shell": "firebase functions:shell",
     "start": "npm run shell",
     "deploy": "firebase deploy --only functions",
