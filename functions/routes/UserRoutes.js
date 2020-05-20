@@ -1,5 +1,5 @@
 // libs
-const express = require("express");
+const express = require('express');
 
 // handlers
 const {
@@ -8,13 +8,13 @@ const {
   getUser,
   updateUser,
   deleteUser,
-} = require("../controllers/UserController");
+} = require('../controllers/UserController');
 
 // router
 const router = express.Router();
 
 // routes
-router.route("/").get(getAllUsers).post(createUser);
-router.route("/:id").get(getUser).patch(updateUser).delete(deleteUser);
+router.route('/').get(getAllUsers).post(createUser);
+router.route('/:id').get(getUser).patch(updateUser).delete(deleteUser);
 
 module.exports = router;
