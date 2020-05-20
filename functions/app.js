@@ -3,7 +3,6 @@ const express = require('express');
 const morgan = require('morgan');
 
 // routes
-const baseRouter = require('./routes/BaseRoutes');
 const tourRouter = require('./routes/TourRoutes');
 const userRouter = require('./routes/UserRoutes');
 
@@ -25,7 +24,6 @@ app.use((req, res, next) => {
 });
 
 // mount routers
-app.use('/', baseRouter);
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
 
