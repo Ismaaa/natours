@@ -1,8 +1,12 @@
+// libs
 const functions = require('firebase-functions');
+const dotenv = require('dotenv');
 
-// // Create and Deploy Your First Cloud Functions
-// // https://firebase.google.com/docs/functions/write-firebase-functions
-//
-exports.helloWorld = functions.https.onRequest((request, response) => {
-   response.send("Hello from Firebase!");
-});
+// modules
+const app = require('./app');
+
+// config
+dotenv.config({ path: './config.env' });
+
+// start server with firebase functions
+exports.app = functions.https.onRequest(app);
