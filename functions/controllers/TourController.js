@@ -22,29 +22,22 @@ exports.getTour = (req, res) => {
   });
 };
 
-exports.createTour = (req, res) => {
-  // const id = tours[tours.length - 1].id + 1;
-  // New object with the ID and the data from the request
-  // const tour = { id, ...req.body };
+exports.createTour = async (req, res) => {
+  try {
+    const model = await Tour.create(req.body);
 
-  // tours.push(tour);
-
-  // Always async, as we are inside a callback function
-  // and we never want to block the event loop
-  fs.writeFile(
-    `${__dirname}/../dev-data/data/tours-simple.json`,
-    // JSON.stringify(tours, null, '\t'), // Pretty output
-    (err) => {
-      console.log(err);
-      res.status(201).json({
-        status: 'success',
-        created_at: req.requestTime,
-        data: {
-          // tour,
-        },
-      });
-    }
-  );
+    res.status(201).json({
+      status: 'success',
+      data: {
+        tour: model,
+      },
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: 'failed',
+      message: error,
+    });
+  }
 };
 
 exports.updateTour = (req, res) => {

@@ -3,7 +3,6 @@ const express = require('express');
 
 // handlers
 const {
-  // checkID,
   getAllTours,
   createTour,
   getTour,
@@ -13,9 +12,6 @@ const {
 
 // router
 const router = express.Router();
-
-// router params
-// router.param('id', checkID);
 
 // routes
 router.route('/').get(getAllTours).post(createTour);
