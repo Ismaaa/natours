@@ -42,6 +42,7 @@ const importData = async () => {
   } catch (error) {
     console.log(error);
   }
+  process.exit();
 };
 
 // delete all data from database
@@ -52,6 +53,7 @@ const deleteData = async () => {
   } catch (error) {
     console.log(error);
   }
+  process.exit();
 };
 
 // arguments
