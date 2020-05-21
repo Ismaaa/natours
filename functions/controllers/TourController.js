@@ -1,20 +1,6 @@
 // models
 const Tour = require('../models/TourModel');
 
-exports.checkBody = (req, res, next) => {
-  const { name, price } = req.body;
-
-  if (name === undefined || price === undefined) {
-    return res.status(400).json({
-      status: 'fail',
-      message: 'Missing name or price',
-      params: req.params,
-    });
-  }
-
-  return next();
-};
-
 // handlers
 exports.getAllTours = (req, res) => {
   // res.status(200).json({
