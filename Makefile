@@ -18,3 +18,11 @@ logs:
 .PHONY: lint
 lint:
 	yarn --cwd functions lint
+
+.PHONY: import-data
+import-data:
+	node functions/commands/dev-data.js --import
+
+.PHONY: delete-data
+delete-data:
+	node functions/commands/dev-data.js --delete

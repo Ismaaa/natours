@@ -1,6 +1,6 @@
 /** USAGE */
-// node import-dev-data.js --import
-// node import-dev-data.js --delete
+// make import-data
+// make delete-data
 
 // libs
 const fs = require('fs');
