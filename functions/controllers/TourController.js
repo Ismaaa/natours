@@ -55,19 +55,38 @@ exports.createTour = async (req, res) => {
   }
 };
 
-exports.updateTour = (req, res) => {
-  res.status(200).json({
-    status: 'success',
-    data: {
-      tour: '<Updated tour>',
-    },
-  });
+exports.updateTour = async (req, res) => {
+  try {
+    const model = await Tour.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true,
+    });
+
+    res.status(200).json({
+      status: 'success',
+      data: {
+        tour: model,
+      },
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: 'failed',
+      message: error,
+    });
+  }
 };
 
-exports.deleteTour = (req, res) => {
-  // It won't return anything, as we are using 204
-  res.status(204).json({
-    status: 'success',
-    data: null,
-  });
+exports.deleteTour = async (req, res) => {
+  try {
+    await Tour.findByIdAndDelete(req.params.id);
+
+    res.status(200).json({
+      status: 'success',
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: 'failed',
+      message: error,
+    });
+  }
 };
