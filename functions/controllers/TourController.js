@@ -19,16 +19,22 @@ exports.getAllTours = async (req, res) => {
   }
 };
 
-exports.getTour = (req, res) => {
-  // Find by ID
-  // const id = parseInt(req.params.id, 10); // To decimal
-  // const tour = tours.find((item) => item.id === id);
+exports.getTour = async (req, res) => {
+  try {
+    const model = await Tour.findById(req.params.id);
 
-  res.status(200).json({
-    status: 'success',
-    params: req.params,
-    // tour,
-  });
+    res.status(200).json({
+      status: 'success',
+      data: {
+        tour: model,
+      },
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: 'failed',
+      message: error,
+    });
+  }
 };
 
 exports.createTour = async (req, res) => {
