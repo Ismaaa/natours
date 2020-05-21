@@ -6,6 +6,7 @@ init:
 .PHONY: up
 up:
 	yarn --cwd functions serve
+	docker-compose up -d
 
 .PHONY: deploy
 deploy:
