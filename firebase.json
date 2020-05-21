@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "site": "ismaaa-natours",
     "public": "./functions/public",
     "ignore": [
       "firebase.json",
