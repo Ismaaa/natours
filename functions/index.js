@@ -40,5 +40,7 @@ const tourSchema = new mongoose.Schema({
   },
 });
 
+const Tour = mongoose.model('Tour', tourSchema);
+
 // start server with firebase functions
 exports.app = functions.https.onRequest(app);
