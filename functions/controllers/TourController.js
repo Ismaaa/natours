@@ -25,8 +25,12 @@ exports.getAllTours = async (req, res) => {
 
     // sorting
     if (req.query.sort) {
+      // transform "price,difficulty" for "price difficulty"
+      const sortBy = req.query.sort.split(',').join(' ');
       // append sort
-      query = query.sort(req.query.sort);
+      query = query.sort(sortBy);
+    } else {
+      query = query.sort('-createdAt');
     }
 
     // execute query
