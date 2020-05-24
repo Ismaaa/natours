@@ -4,7 +4,13 @@ const Tour = require('../models/TourModel');
 // handlers
 exports.getAllTours = async (req, res) => {
   try {
-    const models = await Tour.find();
+    const query = { ...req.query };
+
+    // exlude some params
+    const excludedFields = ['page', 'sort', 'limit', 'fields'];
+    excludedFields.forEach((field) => delete query[field]);
+
+    const models = await Tour.find(query);
 
     res.status(200).json({
       status: 'success',
