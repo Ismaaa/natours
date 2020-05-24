@@ -11,8 +11,17 @@ exports.getAllTours = async (req, res) => {
     const excludedFields = ['page', 'sort', 'limit', 'fields'];
     excludedFields.forEach((field) => delete query[field]);
 
+    // advanced filtering
+    let queryString = JSON.stringify(query);
+
+    // replace ie: gte for $gte to follow mongodb format
+    queryString = queryString.replace(
+      /\b(gte|gt|lte|lt)\b/g,
+      (match) => `$${match}`
+    );
+
     // generate mongoose query
-    query = Tour.find(query);
+    query = Tour.find(JSON.parse(queryString));
 
     // execute query
     const models = await query;
