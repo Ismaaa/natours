@@ -23,6 +23,12 @@ exports.getAllTours = async (req, res) => {
     // generate mongoose query
     query = Tour.find(JSON.parse(queryString));
 
+    // sorting
+    if (req.query.sort) {
+      // append sort
+      query = query.sort(req.query.sort);
+    }
+
     // execute query
     const models = await query;
 
