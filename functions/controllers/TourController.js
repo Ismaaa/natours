@@ -4,14 +4,20 @@ const Tour = require('../models/TourModel');
 // handlers
 exports.getAllTours = async (req, res) => {
   try {
-    const query = { ...req.query };
+    // base query
+    let query = { ...req.query };
 
     // exlude some params
     const excludedFields = ['page', 'sort', 'limit', 'fields'];
     excludedFields.forEach((field) => delete query[field]);
 
-    const models = await Tour.find(query);
+    // generate mongoose query
+    query = Tour.find(query);
 
+    // execute query
+    const models = await query;
+
+    // response
     res.status(200).json({
       status: 'success',
       results: models.length,
