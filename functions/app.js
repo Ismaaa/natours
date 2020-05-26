@@ -10,7 +10,7 @@ const userRouter = require('./routes/UserRoutes');
 const app = express();
 
 // Middlewares
-// app.use(morgan('combined'));
+app.use(morgan('tiny'));
 
 app.use(express.json());
 app.use(express.static(`${__dirname}/public`));
