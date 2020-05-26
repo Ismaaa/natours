@@ -131,9 +131,13 @@ exports.getTourStats = async (req, res) => {
       },
       {
         // 1 = asc
-        $sort: { 'minPrice': 1 }
-      }
-    ]);    
+        $sort: { minPrice: 1 },
+      },
+      {
+        // match again the non equal X
+        $match: { _id: { $ne: 'easy' } },
+      },
+    ]);
 
     res.status(200).json({
       status: 'success',
