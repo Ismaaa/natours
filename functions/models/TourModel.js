@@ -83,11 +83,13 @@ const tourSchema = new mongoose.Schema(
   }
 );
 
-// regular function, so we can use this
+// regular function, so we can use THIS
 tourSchema.virtual('durationWeeks').get(function () {
   return this.duration / 7;
 });
 
+/** MIDDLEWARE / HOOKS */
+// ** PRE
 // before save and create (not insertMany) middleware/hook
 tourSchema.pre('save', function (next) {
   this.slug = slugify(this.name, { lower: true });
@@ -102,10 +104,20 @@ tourSchema.pre(/^find/, function (next) {
   next();
 });
 
+// ** POST
 // post find [find, findOne, etc]
 tourSchema.post(/^find/, function (docs, next) {
   // hide secret tours
   console.log(`Query took ${Date.now() - this.start} ms`);
+  next();
+});
+
+// ** AGGREGATION
+tourSchema.pre('aggregate', function (next) {
+  // push to beggining of array
+  this.pipeline().unshift({
+    $match: { secretTour: { $ne: true } },
+  });
   next();
 });
 
