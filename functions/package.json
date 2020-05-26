@@ -11,7 +11,8 @@
     "shell": "firebase functions:shell",
     "start": "npm run shell",
     "deploy": "firebase deploy",
-    "logs": "firebase functions:log"
+    "logs": "firebase functions:log",
+    "ndb": "ndb index.js"
   },
   "engines": {
     "node": "10"
@@ -23,6 +24,7 @@
     "firebase-functions": "^3.6.1",
     "mongoose": "^5.9.15",
     "morgan": "^1.10.0",
+    "ndb": "^1.1.5",
     "slugify": "^1.4.0",
     "validator": "^13.0.0"
   },
