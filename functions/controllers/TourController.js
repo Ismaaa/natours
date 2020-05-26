@@ -174,9 +174,25 @@ exports.getMonthlyPlan = async (req, res) => {
           startDates: {
             $gte: new Date(`${year}-01-01`), // first day of that year
             $lte: new Date(`${year}-12-31`), // last day of that year
-          }
-        }
-      }
+          },
+        },
+      },
+      {
+        $group: {
+          _id: { $month: '$startDates' },
+          numTourStarts: { $sum: 1 },
+          tours: { $push: '$name' },
+        },
+      },
+      {
+        $sort: { _id: 1 },
+      },
+      {
+        $addFields: {
+          // field with same value as the id (which is the month number)
+          month: '$_id',
+        },
+      },
     ]);
 
     res.status(200).json({
