@@ -95,9 +95,19 @@ tourSchema.pre('save', function (next) {
 });
 
 // pre find middleware/hook [find, findOne, etc]
-tourSchema.pre(/`find/, function (next) {
+tourSchema.pre(/^find/, function (next) {
   // hide secret tours
   this.find({ secretTour: { $ne: true } });
+  this.start = Date.now();
+  next();
+});
+
+// post find [find, findOne, etc]
+tourSchema.post(/^find/, function (docs, next) {
+  // hide secret tours
+  console.log('**************');
+  console.log(`Query took ${Date.now() - this.start} ms`);
+  console.log('**************');
   next();
 });
 
