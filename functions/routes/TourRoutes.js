@@ -10,7 +10,7 @@ const {
   updateTour,
   deleteTour,
   getTourStats,
-  getMonthlyPlan
+  getMonthlyPlan,
 } = require('../controllers/TourController');
 
 // router
