@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "lint": "eslint .",
-    "serve": "ndb firebase serve --only functions,hosting",
+    "serve": "firebase serve --only functions,hosting",
     "shell": "firebase functions:shell",
     "start": "npm run shell",
     "deploy": "firebase deploy",
