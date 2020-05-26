@@ -4,6 +4,7 @@ const morgan = require('morgan');
 
 // modules
 const AppError = require('./utils/AppError');
+const ErrorHandler = require('./handlers/ErrorHandler');
 
 // routes
 const tourRouter = require('./routes/TourRoutes');
@@ -38,13 +39,6 @@ app.all('*', (req, res, next) => {
 
 // error handling (if we pass 4 params
 // express will know that it's an error handler)
-app.use((error, req, res, next) => {
-  console.error(error.stack);
-  res.status(error.statusCode || 500).json({
-    status: error.status || 'fail',
-    message: error.message,
-  });
-  next();
-});
+app.use(ErrorHandler);
 
 module.exports = app;
