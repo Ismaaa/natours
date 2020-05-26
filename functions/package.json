@@ -23,7 +23,8 @@
     "firebase-functions": "^3.6.1",
     "mongoose": "^5.9.15",
     "morgan": "^1.10.0",
-    "slugify": "^1.4.0"
+    "slugify": "^1.4.0",
+    "validator": "^13.0.0"
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",
