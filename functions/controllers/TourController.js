@@ -1,6 +1,6 @@
 // models
 const Tour = require('../models/TourModel');
-const APIFeatures = require('../utils/apiFeatures');
+const APIFeatures = require('../utils/ApiFeatures');
 
 // handlers
 exports.aliasTopTours = (req, res, next) => {

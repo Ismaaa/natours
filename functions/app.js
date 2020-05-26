@@ -2,6 +2,9 @@
 const express = require('express');
 const morgan = require('morgan');
 
+// modules
+const AppError = require('./utils/AppError');
+
 // routes
 const tourRouter = require('./routes/TourRoutes');
 const userRouter = require('./routes/UserRoutes');
@@ -27,19 +30,16 @@ app.use('/api/v1/users', userRouter);
 
 // 404 response
 app.all('*', (req, res, next) => {
-  const error = new Error(`Can't find ${req.originalUrl}`);
-  error.status = 'fail';
-  error.statusCode = 404;
-
   // If we pass a param, express will know that it's an error
   // and it will skipp all next middlewares and go directly
   // to the error handler
-  next(error);
+  next(new AppError(`Can't find ${req.originalUrl}`, 404));
 });
 
 // error handling (if we pass 4 params
 // express will know that it's an error handler)
 app.use((error, req, res, next) => {
+  console.error(error.stack);
   res.status(error.statusCode || 500).json({
     status: error.status || 'fail',
     message: error.message,

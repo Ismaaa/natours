@@ -1,4 +1,3 @@
-
 class APIFeatures {
   constructor(mongoQuery, urlQuery) {
     this.mongoQuery = mongoQuery;
