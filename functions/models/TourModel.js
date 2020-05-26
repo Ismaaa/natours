@@ -84,7 +84,7 @@ tourSchema.virtual('durationWeeks').get(function () {
   return this.duration / 7;
 });
 
-// before save and create (not insertMany) middleware
+// before save and create (not insertMany) middleware/hook
 tourSchema.pre('save', function (next) {
   this.slug = slugify(this.name, { lower: true });
   next();
