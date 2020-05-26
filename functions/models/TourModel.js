@@ -105,9 +105,7 @@ tourSchema.pre(/^find/, function (next) {
 // post find [find, findOne, etc]
 tourSchema.post(/^find/, function (docs, next) {
   // hide secret tours
-  console.log('**************');
   console.log(`Query took ${Date.now() - this.start} ms`);
-  console.log('**************');
   next();
 });
 
