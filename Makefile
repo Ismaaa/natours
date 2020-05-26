@@ -26,3 +26,8 @@ import-data:
 .PHONY: delete-data
 delete-data:
 	node functions/commands/dev-data.js --delete
+
+.PHONY: reset-data
+reset-data:
+	make delete-data
+	make import-data
