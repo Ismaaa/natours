@@ -9,10 +9,15 @@ exports.aliasTopTours = (req, res, next) => {
   next();
 };
 
-exports.getAllTours = async (req, res) => {
-  try {
+class APIFeatures {
+  constructor(mongoQuery, urlQuery) {
+    this.mongoQuery = mongoQuery;
+    this.urlQuery = urlQuery;
+  }
+
+  filter() {
     // base query
-    let query = { ...req.query };
+    const query = { ...this.urlQuery };
 
     // exlude some params
     const excludedFields = ['page', 'sort', 'limit', 'fields'];
@@ -28,39 +33,58 @@ exports.getAllTours = async (req, res) => {
     );
 
     // generate mongoose query
-    query = Tour.find(JSON.parse(queryString));
+    this.mongoQuery = this.mongoQuery.find(JSON.parse(queryString));
 
-    // sorting
-    if (req.query.sort) {
+    return this;
+  }
+
+  sort() {
+    if (this.urlQuery.sort) {
       // transform "price,difficulty" for "price difficulty"
-      const sortBy = req.query.sort.split(',').join(' ');
+      const sortBy = this.urlQuery.sort.split(',').join(' ');
       // append sort
-      query = query.sort(sortBy);
+      this.mongoQuery = this.mongoQuery.sort(sortBy);
     } else {
-      query = query.sort('-createdAt');
+      this.mongoQuery = this.mongoQuery.sort('-createdAt');
     }
 
-    // field limiting
-    if (req.query.fields) {
-      const fields = req.query.fields.split(',').join(' ');
-      query = query.select(fields);
+    return this;
+  }
+
+  limitFields() {
+    if (this.urlQuery.fields) {
+      const fields = this.urlQuery.fields.split(',').join(' ');
+      this.mongoQuery = this.mongoQuery.select(fields);
     } else {
       // remove the __v by default
-      query = query.select('-__v');
+      this.mongoQuery = this.mongoQuery.select('-__v');
     }
 
-    // pagination
-    const page = parseInt(req.query.page, 10) || 1;
-    const limit = parseInt(req.query.limit, 10) || 100;
+    return this;
+  }
+
+  paginate() {
+    const page = parseInt(this.urlQuery.page, 10) || 1;
+    const limit = parseInt(this.urlQuery.limit, 10) || 100;
     const skip = (page - 1) * limit;
 
-    query = query.skip(skip).limit(limit);
+    this.mongoQuery = this.mongoQuery.skip(skip).limit(limit);
 
-    const toursCount = await Tour.countDocuments();
-    if (skip >= toursCount) throw new Error("This page doesn't exist");
+    return this;
+  }
+}
+
+exports.getAllTours = async (req, res) => {
+  try {
+    // Init features and pass an empty query
+    const features = new APIFeatures(Tour.find(), req.query)
+      .filter()
+      .sort()
+      .limitFields()
+      .paginate();
 
     // execute query
-    const models = await query;
+    const models = await features.mongoQuery;
 
     // response
     res.status(200).json({
@@ -71,7 +95,7 @@ exports.getAllTours = async (req, res) => {
   } catch (error) {
     res.status(400).json({
       status: 'failed',
-      message: error,
+      message: error.message,
     });
   }
 };
@@ -89,7 +113,7 @@ exports.getTour = async (req, res) => {
   } catch (error) {
     res.status(400).json({
       status: 'failed',
-      message: error,
+      message: error.message,
     });
   }
 };
@@ -107,7 +131,7 @@ exports.createTour = async (req, res) => {
   } catch (error) {
     res.status(400).json({
       status: 'failed',
-      message: error,
+      message: error.message,
     });
   }
 };
@@ -128,7 +152,7 @@ exports.updateTour = async (req, res) => {
   } catch (error) {
     res.status(400).json({
       status: 'failed',
-      message: error,
+      message: error.message,
     });
   }
 };
@@ -143,7 +167,7 @@ exports.deleteTour = async (req, res) => {
   } catch (error) {
     res.status(400).json({
       status: 'failed',
-      message: error,
+      message: error.message,
     });
   }
 };
