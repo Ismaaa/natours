@@ -152,3 +152,35 @@ exports.getTourStats = async (req, res) => {
     });
   }
 };
+
+exports.getMonthlyPlan = async (req, res) => {
+  try {
+    const year = parseInt(req.params.year, 10);
+    const plan = await Tour.aggregate([
+      {
+        // Returns a document per value in array
+        /*
+          so if the document has these dates:
+          "2021-03-23T09:00:00.000Z",
+          "2021-10-25T08:00:00.000Z",
+          "2022-01-30T09:00:00.000Z"
+
+          It would return 3 different docs, one per date
+        */
+        $unwind: '$startDates',
+      },
+    ]);
+
+    res.status(200).json({
+      status: 'success',
+      data: {
+        plan,
+      },
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: 'failed',
+      message: error.message,
+    });
+  }
+};
