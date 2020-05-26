@@ -185,14 +185,24 @@ exports.getMonthlyPlan = async (req, res) => {
         },
       },
       {
-        $sort: { _id: 1 },
-      },
-      {
         $addFields: {
           // field with same value as the id (which is the month number)
           month: '$_id',
         },
       },
+      {
+        $project: {
+          // hide the ID
+          _id: 0,
+        },
+      },
+      {
+        // sort by busiest month DESC
+        $sort: { numTourStarts: -1 },
+      },
+      // {
+      //   $limit: 5,
+      // },
     ]);
 
     res.status(200).json({
