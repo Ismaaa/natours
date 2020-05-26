@@ -1,5 +1,6 @@
 // libs
 const mongoose = require('mongoose');
+const slugify = require('slugify');
 
 // schema
 const tourSchema = new mongoose.Schema(
@@ -62,6 +63,9 @@ const tourSchema = new mongoose.Schema(
     startDates: {
       type: [Date],
     },
+    slug: {
+      type: String,
+    },
   },
   {
     // when data is outputted as JSON
@@ -78,6 +82,12 @@ const tourSchema = new mongoose.Schema(
 // regular function, so we can use this
 tourSchema.virtual('durationWeeks').get(function () {
   return this.duration / 7;
+});
+
+// before save and create (not insertMany) middleware
+tourSchema.pre('save', function (next) {
+  this.slug = slugify(this.name, { lower: true });
+  next();
 });
 
 const Tour = mongoose.model('Tour', tourSchema);
